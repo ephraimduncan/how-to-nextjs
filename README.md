@@ -6,9 +6,9 @@ _A guide to Vercel's Hybrid Framework for React Applications_
 
 If you've been paying attention to the web development world, you've probably heard a lot about Next.js. Today I'm going to tell you all I know about Next.js,probably not all of them but something to base your journey into Next.js on.
 
-Next.js is an opinionated open-source web development framework built on top of Node.js enabling React based web applications functionalities such as server-side rendering and generating static websites. React is a JavaScript library that is traditionally used to build web applications rendered in the client's browser with JavaScript.
+Next.js is an opinionated open-source web development framework built on top of Node.js that enables server-side rendering and the generation of static websites in React-based web applications. React is a JavaScript library used to create web applications that are rendered in the client's browser using JavaScript.
 
-Created by Vercel, Next.js is capable of creating applications that run both on the client and the server. The framework allows you to build scalable, performant React code and comes with a zero-config approach. Next.js comes out of the box with a lot of opinionated features which include:
+Next.js was created by Vercel and allows you to create client-side and server-side applications. The framework has a zero-config approach and allows you to write scalable, performant React applications. Next.js provides with a variety of opinionated features out of the box, including:
 
 - Routing using Next's built-in router making use of React Hooks.
 - Image Optimization using Next's `Image` component built upon html `img` tags.
