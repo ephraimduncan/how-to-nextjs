@@ -21,3 +21,14 @@ Created by Vercel, Next.js is capable of creating applications that run both on 
 - TypeScript Support
 - Code Splitting and Bundling to load code on demand.
 - Server Side Rendering to render the page on the server.
+
+In this tutorial, we’ll learn the basics of Next.js and at the end of the tutorial, we will create a Simpe Image Gallery. In the process, you’ll see how simple it can be to create a web application powered by Next.js and hosted on Vercel.
+
+Our simple Next.js web app has:
+
+- An input page that allows users to search for a keyword and display images based on the keyword provided.
+- A preview page to view a full detailed image of an images clicked by the user.
+- A gallery page that displays all of the images fetched from an external API.
+- An API Route to fetch data from an external API and send it to the Next.js app.
+
+For this tutorial, you should already be familiar with JavaScript. It’s okay if you’re not familiar with Next.js as the tutorial begins with an introduction to the framework.
