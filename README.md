@@ -76,9 +76,9 @@ We should get a preview of the application like this:
 
 If everything is setup correctly, you should see the page on the browser without any issues. Next, we locate the `index.js` file in the `pages` directory. This file is the entry point for the application. We are going to replace all the context of the `index.js` with a simple react component.
 
-```js
+```jsx
 export default function HomePage() {
-  return <div>Thank u, Next</div>;
+  return <div>Thank u, next</div>;
 }
 ```
 
