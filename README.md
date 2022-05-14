@@ -2,6 +2,22 @@
 
 _A guide to Vercel's Hybrid Framework for React Applications_
 
+# Table of contents
+
+- [Introduction](#introduction)
+- [Installation and Setup](#installation-and-setup)
+- [Navigation Between Pages](#navigation-between-pages)
+- [Styling, Assets and Metadata](#styling-assets-and-metadata)
+  - [Assets](#assets)
+  - [Image Optimization](#image-optimization)
+  - [Metadata](#metadata)
+  - [Styling](#styling)
+- [Pre-rendering and Data Fetching](#pre-Rendering-and-data-fetching)
+  - [Static Generation](#static-generation)
+  - [Server-Side Rendering](#server-side-rendering)
+  - [Incremental Static Regeneration](#incremental-static-regeneration)
+  - [Client-Side Rendering](#client-side-rendering)
+
 ## Introduction
 
 If you've been paying attention to the web development world, you've probably heard a lot about Next.js. Today I'm going to tell you all I know about Next.js,probably not all of them but something to base your journey into Next.js on.
@@ -329,7 +345,7 @@ import "../styles/globals.css";
 
 We can also navigate between the pages to see that the style is affecting the whole application snd view the changes from browser. Everything is working 🎉. You can take a break now, you have come a really long way.
 
-## Pre-rendering and Data Fetching
+## Pre-Rendering and Data Fetching
 
 Rendering in modern web applications is the conversion of the JSX into the HTML representation of our UI. Where and when rendering happens determines the type of rendering method.
 
