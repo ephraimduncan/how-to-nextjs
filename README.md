@@ -17,6 +17,7 @@ _A guide to Vercel's Hybrid Framework for React Applications_
   - [Server-Side Rendering](#server-side-rendering)
   - [Incremental Static Regeneration](#incremental-static-regeneration)
   - [Client-Side Rendering](#client-side-rendering)
+- [Dynamic Routes](#dynamic-routes)
 
 ## Introduction
 
@@ -515,3 +516,47 @@ export default function ClientPage() {
 ```
 
 Note that fetching data from an external source with localhost will result in a CORS error. To fix this, you can fetch the data on an API Route and fetch the data from the API route.
+
+## Dynamic Routes
+
+Next.js defines routes based on the concept of pages. Every Next.js project comes with a `pages` folder. The structure of the `pages` folder determines the structure of your routes and every file inside that folder maps to a route in your application. For static routing, you can create a new route by adding new files to the `pages` directory. For dynamic routes, it is a little bit different.
+
+Dynamic routing refers to generating routes (URLs) to serve individual pages based on data which is subject to change. Next.js handles dynamic routes by supporting brackets around parameters (e.g `[id]`) as a filename.
+
+Let's add a new file to our `pages` directory and name it `[id].js`. We will use this file to generate a dynamic route. Now anytime we visit a route which is not already defined, the component on the `[id].js` page will be rendered.
+
+Let's add the following to our `pages` directory:
+
+```jsx
+import Header from "../components/Header";
+
+export default function DynamicPage() {
+  return (
+    <div>
+      <Header title="Dynamic Page" />
+    </div>
+  );
+}
+```
+
+Now let's visit https://localhost:3000/duncan. Since we haven't already defined a static route as `duncan.js` in the pages directory, Next.js will fall back to `[id].js` page and Next.js will get the route parameters passed in and then use it as a name for the route.
+
+As everything is working, the let's try and access the route parameters on the page itself. Open the `pages/[id].js` file and update it with the following:
+
+```jsx
+import Header from "../components/Header";
+import { useRouter } from "next/router";
+
+export default function DynamicPage() {
+  const router = useRouter();
+
+  return (
+    <div>
+      <Header title="Dynamic Page" />
+      <p>{router.query.id}</p>
+    </div>
+  );
+}
+```
+
+Here, we pull out the route parameters from the query object with the `useRouter` hook. Next.js also supports dynamic nested routes. Learn more about the `useRouter` from the [Next.js docs](https://nextjs.org/docs/api-reference/next/router#userouter)
