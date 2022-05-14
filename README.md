@@ -214,6 +214,22 @@ The page should render as above.
 
 If everything is set up correctly, the image should display correctly in the browser. You notice that the image's `src` is not a relative path, but rather a route. This is a unique Next.js feature. The static images route-path allows the same image to be referenced in the `<img> `tag code on several pages utilizing the root URL. For example, `src=/logo.png`.
 
+Next.js 10 welcomed a built-in image optimization API, `next/image`, as a canonical form for native automatic image optimization. Since we are using an `<img>` tag here and we are going all in Next.js, let's replace the `<img>` tag with the `Image` component from `next/image`.
+
+At the top of the `image.js` file, import the `Image` component:
+
+```jsx
+import Image from "next/image";
+```
+
+Replace the `<img>` tag with the following:
+
+```jsx
+<Image src="/logo.png" alt="Logo" width={128} height={128} />
+```
+
+That's it. Next.js takes it from here. Our images will be optimized and will be loaded lazily by default.
+
 ### Metadata
 
 There is a `Head` component with Next.js that can be imported from `next/head`. This `Head` component is basically a built-in component that Next.js provides to append elements, such as title and meta tags, to the `<head>` element to improve SEO. The advantage of this component is that, it is on a per page basis, and not a global level meaning each page can have specific SEO information related to that page!
@@ -274,6 +290,7 @@ In the `components` directory, add a new `Header.module.css` file and add the fo
 
 ```css
 .title {
+  font-size: 48px;
   color: red;
 }
 ```
@@ -292,7 +309,7 @@ Replace the `<h1>` tag with the following:
 
 We are using the styles from the `Header.module.css` file as a class on the `<h1>` tag. We can see the styling in action on the browser.
 
-Next, we are Implement global styling for our application. The styles created in `global.css` will then apply to your entire application. To implement global styling, we add the styles to a `global.css` file in the `styles` directory and import it in the `_app.js` file as the App component initializes all the pages in your Next.js pages.
+Next, we are going to implement global styling for our application. The styles created in `global.css` will then apply to your entire application. To implement global styling, we add the styles to a `global.css` file in the `styles` directory and import it in the `_app.js` file as the App component initializes all the pages in your Next.js pages.
 
 Let's change the background color of the application. In your `styles/global.css`, add the following:
 
@@ -309,3 +326,5 @@ import "../styles/globals.css";
 ```
 
 We can also navigate between the pages to see that the style is affecting the whole application snd view the changes from browser. Everything is working 🎉. You can take a break now, you have come a really long way.
+
+## Pre-rendering and Data Fetching
