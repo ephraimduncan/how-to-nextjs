@@ -308,4 +308,4 @@ In the `_app.js` file, import the stylesheets from the `styles` directory as fol
 import "../styles/globals.css";
 ```
 
-We can view the changes from browser. Everything is working. We can also navigate between the pages to see that the style is affecting the whole application.
+We can also navigate between the pages to see that the style is affecting the whole application snd view the changes from browser. Everything is working 🎉. You can take a break now, you have come a really long way.
