@@ -149,7 +149,7 @@ export default function HomePage() {
 }
 ```
 
-Now let's add a `Link` component on the `about.js` and `contact.js` pages to link back to the home component. Import it first then replace the <h1> in both pages with the following respectively:
+Now let's add a `Link` component on the `about.js` and `contact.js` pages to link back to the home component. Import it first then replace the `<h1>` in both pages with the following respectively:
 
 ```jsx
 // about.js
