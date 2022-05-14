@@ -67,7 +67,9 @@ Once everything is in place, you can start the application by opening the termin
 ```sh
 yarn dev
 
-# npm run dev
+# or
+
+npm run dev
 ```
 
 We are running our application in the development server. This means that the application will be served from the localhost:3000 port locally on our machine. To preview the application running, you can open a browser and navigate to http://localhost:3000.
@@ -119,7 +121,7 @@ export default function ContactPage() {
 ```
 
 In the browser, go to either the `/about` or `/contact` route. The pages should display without issue. The next thing is to navigate between the pages on the browser.
-The `<a>` HTML element is used to link between pages on a website. In Next.js, you use the Link Component from `next/link` to wrap the `<a>` tag. `<Link>` enables client-side navigation to another page inside the application. Unlike the native `<a>` element, the `<Link>` component does not refresh the page when the page is navigated, allowing client-side navigation between two pages in the same Next.js project.
+The `<a>` HTML element is used to link between pages on a website. In Next.js, you use the Link Component from `next/link` to wrap the `<a>` tag. `Link` enables client-side navigation to another page inside the application. Unlike the native `<a>` element, the `Link` component does not refresh the page when the page is navigated, allowing client-side navigation between two pages in the same Next.js project.
 
 To start navigation, let's first import the `Link` component. At the top of your `pages/index.js` route, import the `Link` with the following:
 
@@ -184,3 +186,126 @@ How the `Link` component works is that it wraps around the `<a>` tag and adds a 
 We can now preview the `index.js` page in the browser and see the `Link` component working in action.
 
 ![Next.js Navigation](./static/next-navigation.gif)
+
+## Styling, Assets and Metadata
+
+### Assets
+
+Next.js has support for static public folders and serves all static site images, CSS, Google Site Verification,robots.txt, and favicon.ico. In the root directory with the public folder, you access everything in production or built time.
+
+Let's test it out by rendering a static image on a page. In the `pages` directory, create a new `pages/image.js` page. We are simply going to render a static image stored in the public folder on the page.
+
+In the public folder, add a new image file and mind the name of the image and file extension. In the `image.js` file, let's add the following:
+
+```js
+export default function ImagePage() {
+  return (
+    <div>
+      <h1>Next.js Logo</h1>
+      <img src="/logo.png" alt="Logo" width={128} height={128} />;
+    </div>
+  );
+}
+```
+
+![Next.js Navigation](./static/next-image.png)
+
+The page should render as above.
+
+If everything is set up correctly, the image should display correctly in the browser. You notice that the image's `src` is not a relative path, but rather a route. This is a unique Next.js feature. The static images route-path allows the same image to be referenced in the `<img> `tag code on several pages utilizing the root URL. For example, `src=/logo.png`.
+
+### Metadata
+
+There is a `Head` component with Next.js that can be imported from `next/head`. This `Head` component is basically a built-in component that Next.js provides to append elements, such as title and meta tags, to the `<head>` element to improve SEO. The advantage of this component is that, it is on a per page basis, and not a global level meaning each page can have specific SEO information related to that page!
+
+Let's improve the `pages/index.js` file with the `Head` component. Import the `Head` component first:
+
+```js
+import Head from "next/head";
+```
+
+Let's improve the HomePage component:
+
+```js
+export default function HomePage() {
+  return (
+    <div>
+      <Head>
+        <title>Home</title>
+        <meta name="description" content="Next.js is a React Framework" />
+      </Head>
+      ...
+    </div>
+  );
+}
+```
+
+Try accessing http://localhost:3000/. The browser tab should now say “Home”. By using your browser’s developer tools, you should see that the title and meta tags were added to <head>. You can go ahead and add the `Head` component to the `about.js` and `contact.js` pages as well.
+
+### Styling
+
+Next.js offers many ways to support CSS in your application. Whether you prefer utility CSS with its classes or prefer CSS-in-JS, Next.js has you covered. We are going to implement two styling options. Global CSS for the whole application and component-specific styling.
+
+We want to style the `<h1>` tags in the pages but first let's make into a resuable React component and use it across different pages. In the root directory, create a `components` directory. Create a new `components/Header.js` file and add the following:
+
+```jsx
+export default function Header({ title }) {
+  return <h1>{title}</h1>;
+}
+```
+
+We can refactor the `pages/index.js` file to use the `Header` component. Import the `Header` component first:
+
+```jsx
+import Header from "../components/Header.js";
+```
+
+In the `pages/index.js` file, replace the `<h1>` with the following:
+
+```jsx
+<Header title="Home Page" />
+```
+
+We can save our file and the component will render correctly. Now that we have abstracted the `<h1>` tag, we can use it in the `about.js` and `contact.js` pages as well. Let's focus on styling the component. Next.js support CSS Modules out of the box.
+
+CSS modules allow you to isolate your CSS by creating files for style-specific components. They are very easy to use, as they are simple CSS but have `.module.css` as the extension.
+
+In the `components` directory, add a new `Header.module.css` file and add the following:
+
+```css
+.title {
+  color: red;
+}
+```
+
+In the Header components file, we can import the style as:
+
+```jsx
+import styles from "./Header.module.css";
+```
+
+Replace the `<h1>` tag with the following:
+
+```jsx
+<h1 className={styles.title}>{title}</h1>
+```
+
+We are using the styles from the `Header.module.css` file as a class on the `<h1>` tag. We can see the styling in action on the browser.
+
+Next, we are Implement global styling for our application. The styles created in `global.css` will then apply to your entire application. To implement global styling, we add the styles to a `global.css` file in the `styles` directory and import it in the `_app.js` file as the App component initializes all the pages in your Next.js pages.
+
+Let's change the background color of the application. In your `styles/global.css`, add the following:
+
+```css
+html {
+  background-color: #63cad6;
+}
+```
+
+In the `_app.js` file, import the stylesheets from the `styles` directory as follows:
+
+```js
+import "../styles/globals.css";
+```
+
+We can view the changes from browser. Everything is working. We can also navigate between the pages to see that the style is affecting the whole application.
