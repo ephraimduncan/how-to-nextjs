@@ -656,4 +656,4 @@ Below are the steps in deploying your Next.js application to Vercel.
 
 ## Conclusion
 
-Thank you for staying with me this far. In this tutorial, we’ve seen how it’s easy to create a web application powered by Next.js and hosted on Vercel. We’ve also shown how quickly we can set up pages in a Next.js app, how to style the application both on the component and global level, how to navigate between pages and also my favorite feature of Next.js, how to create API routes. Thank you. Till Next time.
+Thank you for staying with me this far. In this tutorial, we’ve seen how it’s easy to create a web application powered by Next.js and hosted on Vercel. We’ve also shown how quickly we can set up pages in a Next.js app, how to style the application both on the component and global level, how to navigate between pages and also my favorite feature of Next.js, how to create API routes. Thank you one again. Till Next time.
