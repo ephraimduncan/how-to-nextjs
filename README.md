@@ -12,13 +12,15 @@ _A guide to Vercel's Hybrid Framework for React Applications_
   - [Image Optimization](#image-optimization)
   - [Metadata](#metadata)
   - [Styling](#styling)
-- [Pre-rendering and Data Fetching](#pre-Rendering-and-data-fetching)
+- [Pre-Rendering and Data Fetching](#pre-rendering-and-data-fetching)
   - [Static Generation](#static-generation)
   - [Server-Side Rendering](#server-side-rendering)
   - [Incremental Static Regeneration](#incremental-static-regeneration)
   - [Client-Side Rendering](#client-side-rendering)
 - [Dynamic Routes](#dynamic-routes)
 - [API Routes](#api-routes)
+- [Deployment](#deployment)
+- [Conclusion](#conclusion)
 
 ## Introduction
 
