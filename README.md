@@ -635,3 +635,21 @@ Visit http://localhost:3000/api/123 on the browser to see it in action.
 ![Next.js API Routes](./static/dynamic-api.png)
 
 Under the hoods, this is all powered by [Micro](https://github.com/vercel/micro), a library that powers asynchronous HTTP microservices, made by the same team that built Next.js.
+
+## Deployment
+
+Congratulations, you are ready to deploy your Next.js application to production. There are many hosting services online for applications. Seeing that the fantastic creators of Next.js created Vercel, it's the smartest choice to go with Vercel as your Next hosting.
+
+Below are the steps in deploying your Next.js application to Vercel.
+
+1. Sign Up for a [Vercel](https://vercel.com) account.
+2. Push your project code to Github.
+3. Once you’re signed up, import your repository on Vercel. You can do so from here: https://vercel.com/import/git. You’ll need to Install Vercel for GitHub.
+4. Since it's a Next.js project, everything will be setup correctly. We have to choose a team and then deploy.
+5. Wait for your project to deploy and hurray!
+
+> _PS: Don't deploy on Fridays. The weekends are supposed to be sacred._
+
+## Conclusion
+
+Thank you for staying with me this far. In this tutorial, we’ve seen how it’s easy to create a web application powered by Next.js and hosted on Vercel. We’ve also shown how quickly we can set up pages in a Next.js app, how to style the application both on the component and global level, how to navigate between pages and also my favorite feature of Next.js, how to create API routes. Thank you. Till Next time.
