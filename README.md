@@ -214,6 +214,8 @@ The page should render as above.
 
 If everything is set up correctly, the image should display correctly in the browser. You notice that the image's `src` is not a relative path, but rather a route. This is a unique Next.js feature. The static images route-path allows the same image to be referenced in the `<img> `tag code on several pages utilizing the root URL. For example, `src=/logo.png`.
 
+### Image Optimization
+
 Next.js 10 welcomed a built-in image optimization API, `next/image`, as a canonical form for native automatic image optimization. Since we are using an `<img>` tag here and we are going all in Next.js, let's replace the `<img>` tag with the `Image` component from `next/image`.
 
 At the top of the `image.js` file, import the `Image` component:
@@ -328,3 +330,172 @@ import "../styles/globals.css";
 We can also navigate between the pages to see that the style is affecting the whole application snd view the changes from browser. Everything is working 🎉. You can take a break now, you have come a really long way.
 
 ## Pre-rendering and Data Fetching
+
+Rendering in modern web applications is the conversion of the JSX into the HTML representation of our UI. Where and when rendering happens determines the type of rendering method.
+
+In a simple React application the browser receives an empty html shell along with the javascript instructions to construct the UI, this is called Client-side Rendering.
+
+Next.js pre-renders every page by default. Pre-rendering means that the HTML is created in advance on a server rather than on the user's device using Javascript. This means that while the rendering work is being done on a Client-side Rendered app, the user will see a blank page, whereas in a Pre-rendered app, the user will view the completed UI. Because of the consequences for SEO and social media sharing, it's typically suggested that you utilize pre-rendering unless you have a specific use case for client-side rendering, so let's have a look at the Next.js pre-rendering methods.
+
+1. **Static Generation**: Generates the full HTML for the page content to be rendered in response to every user request.
+2. **Server-side Rendering**: For each route that the user can access, a static HTML file is prepared ahead of time. These static HTML files may be stored on a server or a CDN and retrieved by the client as needed.
+3. **Incremental Static Regeneration**: Extends the power of static sites by adding some server-side rendering (SSR) goodies on top. It allows the regeneration of static pages during runtime.
+4. **Client-side Rendering**: Rendering the HTML of the page on the user's device.
+
+Next.js supports data fetching with both SSR and Static generation. Following functions provided by Next.js make this possible.
+
+1. `getStaticProps`: Used with Static generation to render data
+2. `getStaticPaths`: Used with Static generation to render dynamic routes
+3. `getServerSideProps`: Applicable to SSR
+
+> Check out this site https://next-usecase.thcl.dev/ to see practical use cases of each of the functions.
+
+### Static Generation
+
+Let's see how we can use the functions provided by Next.js to fetch data. In the `pages` directory, create a new `static.js` file. We are going to implement Static Generation in this file. Let's add the following:
+
+```jsx
+import Header from "../components/Header.js";
+
+export default function StaticPage() {
+  return (
+    <div>
+      <Header title="Static Generation" />
+      <p>This is a static page</p>
+    </div>
+  );
+}
+```
+
+The `getStaticProps` method can be used inside a page to fetch data at build time, e.g. when you run next build. Once the app is built, it won't refresh the data until another build has been run. To use the method, we export an async function in the page. The response from the data fetch is passed as a `prop` to our page component. We are going to fetch a simple data from an external AP using `fetch`
+
+```jsx
+export async function getStaticProps(context) {
+  const res = await fetch(`https://edge-functions-json-response.vercel.app/`);
+  const data = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { data }, // will be passed to the page component as props
+  };
+}
+```
+
+Once we have fetched the data, we can destructure the props and render the data in the page. Let's update our `StaticPage` component to render the data:
+
+```jsx
+import Header from "../components/Header.js";
+
+export default function StaticPage({ data }) {
+  return (
+    <div>
+      <Header title="Static Generation" />
+      <p>{data.message}</p>
+    </div>
+  );
+}
+```
+
+We can preview from our browser and see the data is being rendered.
+
+> _During development, the data is fetched every time the page is rendered. During production, the data is fetched only once._
+
+### Server-Side Rendering
+
+Once we have implemented Static Generation, let's move on to Server-side Rendering. In the same pages directory, create a new `server.js` file. We are going to implement Server-side Rendering in this file. Let's add the following:
+
+```jsx
+import Header from "../components/Header.js";
+
+export default function ServerPage({ data }) {
+  return (
+    <div>
+      <Header title="Server-Side Rendering" />
+      <p>{data.message}</p>
+    </div>
+  );
+}
+
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://edge-functions-json-response.vercel.app/`);
+  const data = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { data }, // will be passed to the page component as props
+  };
+}
+```
+
+The code for the `getServerSideProps` method is similar to the code for the `getStaticProps` method. The only difference is the mode of rendering. `getServerSideProps` is used fetch data on runtime. `getStaticProps` is used to fetch data at build time.
+
+### Incremental Static Regeneration
+
+As I said earlier, Incremental Static Regeneration allows the regeneration of static pages during runtime. By adding a `revalidate` option to the `getStaticProps` method, the static data is regenerated once and server requests for new data will occure at certain time intervals.
+
+```jsx
+export async function getStaticProps(context) {
+  const res = await fetch(`https://edge-functions-json-response.vercel.app/`);
+  const data = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { data }, // will be passed to the page component as props
+    revalidate: 1, // revalidate after 1 second
+  };
+}
+```
+
+### Client-Side Rendering
+
+Next.js supports client-side rendering but it is not recommended. To use client-side rendering in Next.js, you can use the `useEffect` hook to make the request or the `useSwr` custom hook made by Vercel engineers which implements `stale-while-revalidate`.
+
+We are going to use the `useSwr` hook to make the request as it is the recommended by the Next.js team. For more information on using SWR, check out the [SWR docs](https://swr.vercel.app). Install `swr` using your terminal with the following:
+
+```sh
+yarn add swr
+
+# or
+
+npm install swr
+```
+
+In the `pages` directory, create a new `client.js` file and add the following:
+
+```jsx
+import useSWR from "swr";
+import Header from "../components/Header.js";
+
+const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+export default function ClientPage() {
+  const { data, error } = useSWR("/api/client", fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <Header title="Client-Side Rendering" />
+      <p>{data.message}</p>
+    </div>
+  );
+}
+```
+
+Note that fetching data from an external source with localhost will result in a CORS error. To fix this, you can fetch the data on an API Route and fetch the data from the API route.
