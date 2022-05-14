@@ -351,7 +351,9 @@ We can also navigate between the pages to see that the style is affecting the wh
 
 ## Pre-Rendering and Data Fetching
 
-Rendering in modern web applications is the conversion of the JSX into the HTML representation of our UI. Where and when rendering happens determines the type of rendering method.
+If you took a break, welcome. If you have stayed this far, keep on, I believe in you. Let's get back to business.
+
+**Rendering in modern web applications is the conversion of the JSX into the HTML representation of our UI.** Where and when rendering happens determines the type of rendering method.
 
 In a simple React application the browser receives an empty html shell along with the javascript instructions to construct the UI, this is called Client-side Rendering.
 
