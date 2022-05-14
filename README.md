@@ -580,7 +580,11 @@ It's that simple. Now on your browser, access http://localhost:3000/api/hello. I
 
 ![Next.js API Routes](./static/api.png)
 
-On the client-side, we can fetch the data from the API endpoint and use it in our application. Let's create a new static page to use the data from the endpoint. Create a new `/pages/use-api.js` file and add the following:
+On the client-side, we can fetch the data from the API endpoint and use it in our application. Let's create a new static page to use the data from the endpoint.
+
+We send a `GET` request when fetching the data. We can also customize the API endpoint to accept other forms of requests including `PUT`, `POST` and `DELETE`
+
+Create a new `/pages/use-api.js` file and add the following:
 
 ```jsx
 import Header from "../components/Header.js";
@@ -629,3 +633,5 @@ No need for `next/router` this time, the routes can be accessed on the `req` obj
 Visit http://localhost:3000/api/123 on the browser to see it in action.
 
 ![Next.js API Routes](./static/dynamic-api.png)
+
+Under the hoods, this is all powered by [Micro](https://github.com/vercel/micro), a library that powers asynchronous HTTP microservices, made by the same team that built Next.js.
