@@ -18,6 +18,7 @@ _A guide to Vercel's Hybrid Framework for React Applications_
   - [Incremental Static Regeneration](#incremental-static-regeneration)
   - [Client-Side Rendering](#client-side-rendering)
 - [Dynamic Routes](#dynamic-routes)
+- [API Routes](#api-routes)
 
 ## Introduction
 
@@ -560,3 +561,71 @@ export default function DynamicPage() {
 ```
 
 Here, we pull out the route parameters from the query object with the `useRouter` hook. Next.js also supports dynamic nested routes. Learn more about the `useRouter` from the [Next.js docs](https://nextjs.org/docs/api-reference/next/router#userouter)
+
+## API Routes
+
+In addition to creating page routes, which means pages are served to the browser as Web pages, Next.js can create API routes. This is an exciting feature since it means that Next.js may be used to develop a frontend for data that is stored and retrieved by Next.js, using fetch requests to transmit JSON. API routes are mapped to the `/api` endpoint and are stored in the `/pages/api/` subdirectory. When designing full-stack applications, this capability comes in handy. We write Node.js code in those routes (rather than React code). You move from the frontend to the backend, but it's a seamless transition with Next.js.
+
+Create a `/pages/api` directory if you don't already have it. Create a new `hello.js` file in the directory. Add the following to the file:
+
+```js
+const handler = (req, res) => {
+  return res.json({ hello: "world!" });
+};
+
+export default handler;
+```
+
+It's that simple. Now on your browser, access http://localhost:3000/api/hello. It should return a json response with the message `{ hello: "world!" }`. As a test, I want you to create an API route on `/api/client` to provide data for the `/client` page we wrote in the Client-Side Rendering section. The browser should return something like the image below.
+
+![Next.js API Routes](./static/api.png)
+
+On the client-side, we can fetch the data from the API endpoint and use it in our application. Let's create a new static page to use the data from the endpoint. Create a new `/pages/use-api.js` file and add the following:
+
+```jsx
+import Header from "../components/Header.js";
+
+export default function StaticPage({ data }) {
+  return (
+    <div>
+      <Header title="Static Generation To Use API" />
+      <p>{data.hello}</p>
+    </div>
+  );
+}
+
+export async function getStaticProps(context) {
+  const res = await fetch("http://localhost:3000/api/hello");
+  const data = await res.json();
+
+  if (!data) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: { data }, // will be passed to the page component as props
+  };
+}
+```
+
+Now we are able to access the data from the API endpoint in our application. API routes also allow us to define dynamic path parameters in the same manner as pages. For example, using the structure `pages/api/[id].js,` we may design a route to obtain a user by user ID. The `/api/:id` route will be created, and the `id` can be found in the query parameter.
+
+Let's implement a dynamic API route. Create a new `/pages/api/[id].js` file and add the following:
+
+```js
+export default function handler(req, res) {
+  const {
+    query: { id },
+  } = req;
+
+  return res.json({ user: { id, name: "Duncan" } });
+}
+```
+
+No need for `next/router` this time, the routes can be accessed on the `req` object provided internally by Next.js.
+
+Visit http://localhost:3000/api/123 on the browser to see it in action.
+
+![Next.js API Routes](./static/dynamic-api.png)
