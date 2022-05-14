@@ -66,6 +66,8 @@ Once everything is in place, you can start the application by opening the termin
 
 ```sh
 yarn dev
+
+# npm run dev
 ```
 
 We are running our application in the development server. This means that the application will be served from the localhost:3000 port locally on our machine. To preview the application running, you can open a browser and navigate to http://localhost:3000.
@@ -82,8 +84,103 @@ export default function HomePage() {
 }
 ```
 
-This is how simple Next.js works. Whenever you put a JavaScript file in the `pages` directory, it is automatically a route, no configuration needed (so a about.js will become localhost:3000/about). Along with this, you can include dynamic routes (as in, ones with variable names, and do shallow routing (meaning you can change the URL without calling data fetching methods again).
+This is how simple Next.js works. Whenever you put a JavaScript file in the `pages` directory, it is automatically a route, no configuration needed (so a `about.js` will become `localhost:3000/about`). Along with this, you can include dynamic routes (as in, ones with variable names, and do shallow routing (meaning you can change the URL without calling data fetching methods again).
 
 ![Next.js Preview](./static/localhost-2.png)
 
 Your new change once saved should reflect in the browser automatically using React Fast Refresh. No need to refresh the page and no configuration is needed. It all works out of the box!
+
+## Navigation Between Pages
+
+In Next.js, a page is a React Component exported from a file in the pages directory. The Next.js app we built so far only has one page. Many different pages can be found on most websites and web apps. Let's look at how we can expand our app with more pages. It's simple to create a new page. Just create a file in the `pages` directory to get a route based on the file name.
+
+Lets begin by replacing our `pages/index.js` file with the following:
+
+```jsx
+export default function HomePage() {
+  return <h1>Home Page</h1>;
+}
+```
+
+In the `pages` directory, create two new files called `about.js` and `contact.js`. Add the following to the files respectively:
+
+```jsx
+// about.js
+export default function AboutPage() {
+  return <h1>About Page</h1>;
+}
+```
+
+```jsx
+// contact.js
+export default function ContactPage() {
+  return <h1>Contact Page</h1>;
+}
+```
+
+In the browser, go to either the `/about` or `/contact` route. The pages should display without issue. The next thing is to navigate between the pages on the browser.
+The `<a>` HTML element is used to link between pages on a website. In Next.js, you use the Link Component from `next/link` to wrap the `<a>` tag. `<Link>` enables client-side navigation to another page inside the application. Unlike the native `<a>` element, the `<Link>` component does not refresh the page when the page is navigated, allowing client-side navigation between two pages in the same Next.js project.
+
+To start navigation, let's first import the `Link` component. At the top of your `pages/index.js` route, import the `Link` with the following:
+
+```js
+import Link from "next/link";
+```
+
+Then replace the content of the `HomePage` component with the following:
+
+```jsx
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Home Page</h1>
+      <div>
+        <Link href="/about">
+          <a>About</a>
+        </Link>
+      </div>
+      <div>
+        <Link href="/contact">
+          <a>Contact</a>
+        </Link>
+      </div>
+    </div>
+  );
+}
+```
+
+Now let's add a `Link` component on the `about.js` and `contact.js` pages to link back to the home component. Import it first then replace the <h1> in both pages with the following respectively:
+
+```jsx
+// about.js
+export default function AboutPage() {
+  return (
+    <div>
+      <h1>About Page</h1>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+    </div>
+  );
+}
+```
+
+```jsx
+// contact.js
+export default function ContactPage() {
+  return (
+    <div>
+      <h1>Contact Page</h1>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+    </div>
+  );
+}
+```
+
+How the `Link` component works is that it wraps around the `<a>` tag and adds a `href` attribute to it. The `href` attribute is the URL or the page route that the link will navigate to. In the `/about` and `/contact` pages, the `href` attribute on the `Link` component is set to `/`. The router will automatically route files named `index` to the root of the directory. `pages/index.js` will be associated with the `/` route.
+
+We can now preview the `index.js` page in the browser and see the `Link` component working in action.
+
+![Next.js Navigation](./static/next-navigation.gif)
