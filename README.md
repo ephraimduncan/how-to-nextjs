@@ -2,7 +2,7 @@
 
 _A guide to Vercel's Hybrid Framework for React Applications_
 
-# Table of contents
+## Table of Contents
 
 - [Introduction](#introduction)
 - [Installation and Setup](#installation-and-setup)
